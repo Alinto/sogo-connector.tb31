@@ -41,6 +41,7 @@
  */
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+Components.utils.import("resource:///modules/mailServices.js");
 Components.utils.import("resource://gre/modules/Services.jsm");
 
 let commentColumn = null;
@@ -71,6 +72,10 @@ SOGoConnectorAutocompleteResult.prototype = {
         return this._searchResults[aIndex].value;
     },
 
+    getLabelAt: function getLabelAt(aIndex) {
+        return this.getValueAt(aIndex);
+    },
+
     getCommentAt: function getCommentAt(aIndex) {
         return this._searchResults[aIndex].comment;
     },
@@ -81,6 +86,10 @@ SOGoConnectorAutocompleteResult.prototype = {
 
     getImageAt: function getImageAt(aIndex) {
         return "";
+    },
+
+    getFinalCompleteValueAt: function(aIndex) {
+        return this.getValueAt(aIndex);
     },
 
     removeValueAt: function removeValueAt(aRowIndex, aRemoveFromDB) {
@@ -98,13 +107,7 @@ SOGoConnectorAutocompleteResult.prototype = {
 
     /* nsISupports */
 
-    QueryInterface: function(aIID) {
-        if (!aIID.equals(ACR)
-            && !aIID.equals(Components.interfaces.nsIAbAutoCompleteResult)
-            && !aIID.equals(Components.interfaces.nsISupports))
-            throw Components.results.NS_ERROR_NO_INTERFACE;
-        return this;
-    }
+    QueryInterface: XPCOMUtils.generateQI([ACR, nsIAbAutoCompleteResult])
 };
 
 function SOGoConnectorAutocompleteSearch() {}
@@ -113,10 +116,9 @@ SOGoConnectorAutocompleteSearch.prototype = {
     // This is set from a preference,
     // 0 = no comment column, 1 = name of address book this card came from
     // Other numbers currently unused (hence default to zero)
-    _parser: Components.classes["@mozilla.org/messenger/headerparser;1"]
-                       .getService(Components.interfaces.nsIMsgHeaderParser),
-    _abManager: Components.classes["@mozilla.org/abmanager;1"]
-                          .getService(Components.interfaces.nsIAbManager),
+    _parser: MailServices.headerParser,
+    _abManager: MailServices.ab,
+    applicableHeaders: Set(["addr_to", "addr_cc", "addr_bcc", "addr_reply"]),
 
     // Private methods
 
@@ -320,10 +322,10 @@ SOGoConnectorAutocompleteSearch.prototype = {
     _addToResult: function _addToResult(directory, card, emailToUse,
                                         isPrimaryEmail, result) {
         let emailAddress =
-            this._parser.makeFullAddress(card.displayName,
-                                         card.isMailList ?
-                                         card.getProperty("Notes", "") || card.displayName :
-                                         emailToUse);
+            this._parser.makeMailboxObject(card.displayName,
+                                           card.isMailList ?
+                                           card.getProperty("Notes", "") || card.displayName :
+                                           emailToUse).toString();
 
         // The old code used to try it manually. I think if the parser can't work
         // out the address from what we've supplied, then its busted and we're not

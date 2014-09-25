@@ -1,6 +1,8 @@
 NEWS
 ====
 
+31.0.0  Initial import for Thunderbird 31 and applied fix for bug #2870
+
 24.0.6  We now correctly detect ACL changes on calendar components and
         refresh the cache if necessary.
         We also no longer require a Thunderbird restart when reloading
