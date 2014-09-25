@@ -42,8 +42,8 @@ MANIFEST-pre:
 	@find . -type f -name "*.properties" >> $@	
 	@find . -type f -name "RELEASE-NOTES" >> $@	
 
-rest:
-	@make $(XPI_ARCHIVE)
+rest: MANIFEST
+	@+make $(XPI_ARCHIVE)
 
 $(XPI_ARCHIVE): $(FILENAMES)
 	@echo Generating $(XPI_ARCHIVE)...
