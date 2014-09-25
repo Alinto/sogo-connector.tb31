@@ -1,0 +1,19 @@
+*** chrome/content/sogo-connector/addressbook/categories.js 2013-04-17 16:54:08.000000000 +0400
+--- chrome/content/sogo-connector/addressbook/categories.js 2013-09-18 15:16:57.971057887 +0400
+***************
+*** 21,27 ****
+      setCategoriesAsString: function SCCC_setCategoriesAsString(cats) {
+          let prefService = Components.classes["@mozilla.org/preferences-service;1"]
+                                      .getService(Components.interfaces.nsIPrefBranch);
+! prefService.setCharPref("sogo-connector.contacts.categories", cats);
+      },
+  
+      getCategoriesAsArray: function SCCC_getCategoriesAsArray() {
+--- 22,28 ----
+      setCategoriesAsString: function SCCC_setCategoriesAsString(cats) {
+          let prefService = Components.classes["@mozilla.org/preferences-service;1"]
+                                      .getService(Components.interfaces.nsIPrefBranch);
+! prefService.setCharPref("sogo-connector.contacts.categories", unescape(encodeURIComponent(cats)));
+      },
+  
+      getCategoriesAsArray: function SCCC_getCategoriesAsArray() {

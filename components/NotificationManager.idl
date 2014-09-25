@@ -1,0 +1,5 @@
+#include "nsISupports.idl"
+
+[scriptable, uuid(0d53c98e-f9ce-11dc-9f34-00163e47dbb4)]
+interface inverseIJSNotificationManager : nsISupports {
+};

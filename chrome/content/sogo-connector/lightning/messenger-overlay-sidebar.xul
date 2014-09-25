@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay>
+
+<overlay id="inverseMessengerOverlaySidebar"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript"
+    src="chrome://sogo-connector/content/calendar/utils.js"/>
+</overlay>

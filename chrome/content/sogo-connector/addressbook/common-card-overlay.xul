@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     2007, 2010  Inverse inc.
+ Author:        Wolfgang Sourdeau <wsourdeau@inverse.ca>
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+  -->
+
+<!DOCTYPE overlay [
+    <!ENTITY % commonCardOverlayDTD SYSTEM "chrome://sogo-connector/locale/addressbook/common-card-overlay.dtd">
+    %commonCardOverlayDTD;
+]>
+
+<overlay id="inverseAddressbookCommonCardOverlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+    src="chrome://sogo-connector/content/addressbook/common-card-overlay.js"/>
+
+  <tabs id="abTabs">
+    <tab insertbefore="homeTabButton" id="categoriesTabButton" label="&sogo-connector.tabs.categories.label;"/>
+  </tabs>
+  <tabpanels id="abTabPanels">
+    <vbox id="abCategoriesTab" flex="0" style="max-height: 200px; overflow-y: auto;" insertbefore="abHomeTab">
+      <vbox id="abCategories">
+      </vbox>
+      <textbox id="abEmptyCategory" readonly="true"/>
+    </vbox>
+  </tabpanels>
+</overlay>

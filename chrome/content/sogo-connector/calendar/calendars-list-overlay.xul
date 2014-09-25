@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay
+  SYSTEM "chrome://sogo-connector/locale/calendar/calendars-list-overlay.dtd">
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+
+<overlay id="inverseSCCommonSetsOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/calendar/calendars-list-overlay.js"/>
+
+  <menupopup id="list-calendars-context-menu">
+    <menuitem id="list-calendars-context-reinit-cache"
+              label="&calendar.context.reinit-cache.label;"
+              oncommand="reinitCalendarCache(document.getElementById('list-calendars-context-menu').contextCalendar);"
+              insertafter="list-calendars-context-reload"
+              />
+  </menupopup>
+</overlay>

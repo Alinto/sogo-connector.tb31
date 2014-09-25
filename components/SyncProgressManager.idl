@@ -1,0 +1,5 @@
+#include "nsISupports.idl"
+
+[scriptable, uuid(1ef11802-f9e9-11dc-a747-00163e47dbb4)]
+interface inverseIJSSyncProgressManager : nsISupports {
+};

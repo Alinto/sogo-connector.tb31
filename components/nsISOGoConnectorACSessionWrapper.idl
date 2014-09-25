@@ -1,0 +1,5 @@
+#include "nsIAutoCompleteSession.idl"
+
+[scriptable, uuid(688f57fc-1ac6-41df-88b1-0df9f4bafed4)]
+interface nsISOGoConnectorACSessionWrapper : nsIAutoCompleteSession {
+};
