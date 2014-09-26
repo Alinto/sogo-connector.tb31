@@ -74,6 +74,20 @@ Modifications to original file pref-directory-add.xul by:
 <!ENTITY groupDavServerType.label         "Távoli kiszolgáló típusa:">
 <!ENTITY groupDavServerType.accesskey     "t">
 
+<!ENTITY groupdavPeriodicSync.label       "Szinkronizálás" >
+<!ENTITY groupdavPeriodicSync5m.label     "5 perc" >
+<!ENTITY groupdavPeriodicSync15m.label    "15 perc" >
+<!ENTITY groupdavPeriodicSync1h.label     "1 óra" >
+<!ENTITY groupdavPeriodicSync2h.label     "2 óra" >
+<!ENTITY groupdavNotifications.label      "Értesítések" >
+
+<!ENTITY groupdavNotificationsOINE.label  "Értesítés sikeres szinkronnál" >
+<!ENTITY groupdavNotificationsRestart.label "Az változások érvényesítéséhez újra kell indítani a Thunderbird -t." >
+<!ENTITY groupdavNotificationsManual.label "Értesítések megjelenítése kézi szinkronizálásnál" >
+<!ENTITY groupdavNotificationsManual.info  "Amikor a menüből vagy az eszköztárról Szinkronizál." >
+<!ENTITY groupdavNotificationsSave.label   "Értesítsen ha mentett egy névjegyet" >
+<!ENTITY groupdavNotificationsSave.info    "Az alapértelmezett értesítés egy folymatjelző a státuszjelzőben. Ha bejelölöd, az általános értesítési területen fog megjelenni." >
+<!ENTITY groupdavNotificationsStart.label  "Értesítések induláskor" >
 
 <!ENTITY General.tab                       "Általános">
 <!ENTITY Offline.tab                       "Tárolt">
