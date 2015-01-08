@@ -335,7 +335,7 @@ GroupDavSynchronizer.prototype = {
                 let data = {query: "vcard-download", data: key};
                 this.remainingDownloads++;
                 let request = new sogoWebDAV(fileUrl, this, data);
-                request.get();
+                request.get("text/vcard");
             }
         }
 
@@ -360,7 +360,7 @@ GroupDavSynchronizer.prototype = {
                 let data = {query: "list-download", data: key};
                 this.remainingDownloads++;
                 let request = new sogoWebDAV(fileUrl, this, data);
-                request.get();
+                request.get("text/vcard");
             }
         }
 
