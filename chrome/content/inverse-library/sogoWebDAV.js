@@ -175,7 +175,13 @@ sogoWebDAV.prototype = {
         let httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
         httpChannel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
         httpChannel.notificationCallbacks = this;
-        httpChannel.setRequestHeader("accept", "text/xml", false);
+        if (headers && headers.accept) {
+            httpChannel.setRequestHeader("accept", headers.accept, false);
+            delete headers.accept;
+        }
+        else {
+            httpChannel.setRequestHeader("accept", "text/xml", false);
+        }
         httpChannel.setRequestHeader("accept-charset", "utf-8,*;q=0.1", false);
         if (headers) {
             for (let header in headers) {
@@ -308,7 +314,11 @@ sogoWebDAV.prototype = {
 
     load: function(operation, parameters) {
         if (operation == "GET") {
-            this._sendHTTPRequest(operation);
+	    var headers = {};
+	    if (parameters.accept !== null) {
+		headers.accept = parameters.accept;
+	    }
+            this._sendHTTPRequest(operation, null, headers);
         }
         else if (operation == "PUT" || operation == "POST") {
 	    if(parameters.contentType.indexOf("text/vcard") == 0) {
@@ -373,8 +383,8 @@ sogoWebDAV.prototype = {
         else
             throw ("operation '" + operation + "' is not currently supported");
     },
-    get: function() {
-        this.load("GET");
+    get: function(accept) {
+        this.load("GET", {accept: accept});
     },
     put: function(data, contentType) {
         this.load("PUT", {data: data, contentType: contentType});
