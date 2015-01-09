@@ -1,6 +1,8 @@
 NEWS
 ====
 
+31.0.1  Fix for bug #3042
+
 31.0.0  Initial import for Thunderbird 31 and applied fix for bug #2870
 	Added patch from bug #2922
 	Fixed Hungarian translation (#2888)
