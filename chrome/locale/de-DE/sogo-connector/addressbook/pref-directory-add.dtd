@@ -4,7 +4,7 @@
  Email:		support@inverse.ca 
  URL:			http://inverse.ca
 
- Translated to German by Raffael Luthiger
+ Translated to German by Raffael Luthiger and Johann Kayßer
 	
  This file is part of "SOGo Connector" a Thunderbird extension.
 
@@ -41,20 +41,20 @@
 <!ENTITY groupDavServerType.label         "GroupDAV Server Typ:">
 <!ENTITY groupDavServerType.accesskey     "G">
 
-<!ENTITY groupdavPeriodicSync.label       "Periodic sync" >
+<!ENTITY groupdavPeriodicSync.label       "Synchronisations-Intervall" >
 <!ENTITY groupdavPeriodicSync5m.label     "5 min" >
 <!ENTITY groupdavPeriodicSync15m.label    "15 min" >
 <!ENTITY groupdavPeriodicSync1h.label     "1 h" >
 <!ENTITY groupdavPeriodicSync2h.label     "2 h" >
-<!ENTITY groupdavNotifications.label      "Show Notifications" >
+<!ENTITY groupdavNotifications.label      "Benachrichtigungen anzeigen" >
 
-<!ENTITY groupdavNotificationsOINE.label  "Notify only if data synchronized" >
-<!ENTITY groupdavNotificationsRestart.label "Changes in options for 'Periodic sync' need a restart of Thunderbird." >
-<!ENTITY groupdavNotificationsManual.label "Show Notifications for manual synchronizations" >
-<!ENTITY groupdavNotificationsManual.info  "When select 'Synchronize' from toolbar or context menu." >
-<!ENTITY groupdavNotificationsSave.label   "Show Notifications when saving a card" >
-<!ENTITY groupdavNotificationsSave.info    "The default notification is a progress bar in the status bar. If checked, a general notification will be displayed." >
-<!ENTITY groupdavNotificationsStart.label  "Show Notifications on startup" >
+<!ENTITY groupdavNotificationsOINE.label  "Nur bei erfolgter Synchronsation benachrichtigen" >
+<!ENTITY groupdavNotificationsRestart.label "Änderungen des 'Synchronisations-Intervalls' erfordern einen Neusart von Thunderbird." >
+<!ENTITY groupdavNotificationsManual.label "Benachrichtigungen bei manueller Synchronsation anzeigen" >
+<!ENTITY groupdavNotificationsManual.info  "Wenn die Synchronsation über die Symbolleiste oder das Kontextmenü gestartet wurde." >
+<!ENTITY groupdavNotificationsSave.label   "Benachrichtigungen beim Speichern eines Kontakts anzeigen" >
+<!ENTITY groupdavNotificationsSave.info    "Standardmäßig wird ein Fortschrittsbalken in der Statusleiste angezeigt. Bei Auswahl dieser Option wird eine Benachrichtigung angezeigt." >
+<!ENTITY groupdavNotificationsStart.label  "Benachrichtigungen beim Starten anzeigen" >
 
 <!ENTITY General.tab                       "Allgemein">
 <!ENTITY Offline.tab                       "Offline">
