@@ -671,6 +671,7 @@ GroupDavSynchronizer.prototype = {
             dump("  new card\n");
             this.gAddressBook.addCard(card);
             this.localCardPointerHash[key] = card;
+            this.localCardVersionHash[key] = card.getProperty(kETagKey, "-1");
         }
     },
     importList: function(key, data) {
