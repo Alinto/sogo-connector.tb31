@@ -251,6 +251,7 @@ GroupDavSynchronizer.prototype = {
                     // this.dumpCard(card);
                     dump("  new card '" + card.displayName + "' will be uploaded\n");
                     key = new UUID() + ".vcf";
+                    card.setProperty(kNameKey, key);
                     this.localCardUploads[key] = card;
                     uploads++;
                 }
