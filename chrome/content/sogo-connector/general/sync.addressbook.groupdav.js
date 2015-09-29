@@ -411,10 +411,11 @@ GroupDavSynchronizer.prototype = {
     onCardDownloadComplete: function(status, data, key) {
         this.remainingDownloads--;
         this.progressMgr.updateAddressBook(this.gURL);
+        let pos;
         if (Components.isSuccessCode(status)
             && data
-            && (data.toLowerCase().indexOf("begin:vcard") == 0))
-            this.importCard(key, data);
+            && ((pos = data.toLowerCase().indexOf("begin:vcard")) >= 0))
+            this.importCard(key, data.substr(pos));
         else
             this.appendFailure(status, key);
 
@@ -427,10 +428,11 @@ GroupDavSynchronizer.prototype = {
     onListDownloadComplete: function(status, data, key) {
         this.remainingDownloads--;
         this.progressMgr.updateAddressBook(this.gURL);
+        let pos;
         if (Components.isSuccessCode(status)
             && data
-            && (data.toLowerCase().indexOf("begin:vlist") == 0))
-            this.importList(key, data);
+            && ((pos = data.toLowerCase().indexOf("begin:vlist")) >= 0))
+            this.importList(key, data.substr(pos));
         else
             this.appendFailure(status, key);
         if (this.remainingDownloads == 0) {
