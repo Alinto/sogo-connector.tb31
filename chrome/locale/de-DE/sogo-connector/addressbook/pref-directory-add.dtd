@@ -23,8 +23,8 @@
 -->
 
 <!ENTITY newDirectoryTitle.label          "Remote-Adressbuch Einstellungen">
-<!ENTITY groupdavName.label               "Verbindungsname: ">
-<!ENTITY groupdavName.accesskey           "n">
+<!ENTITY groupdavName.label               "Adressbuch-Name: ">
+<!ENTITY groupdavName.accesskey           "A">
 <!ENTITY groupdavURL.label                "URL: ">
 <!ENTITY groupdavURL.accesskey            "l">
 <!ENTITY groupdavHostname.label           "Host: ">
