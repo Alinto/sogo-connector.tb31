@@ -251,6 +251,7 @@ GroupDavSynchronizer.prototype = {
                     // this.dumpCard(card);
                     dump("  new card '" + card.displayName + "' will be uploaded\n");
                     key = new UUID() + ".vcf";
+                    card.setProperty(kNameKey, key);
                     this.localCardUploads[key] = card;
                     uploads++;
                 }
@@ -673,6 +674,7 @@ GroupDavSynchronizer.prototype = {
             dump("  new card\n");
             this.gAddressBook.addCard(card);
             this.localCardPointerHash[key] = card;
+            this.localCardVersionHash[key] = card.getProperty(kETagKey, "-1");
         }
     },
     importList: function(key, data) {
