@@ -600,38 +600,39 @@ GroupDavSynchronizer.prototype = {
                 else
                 {
                     // List of all card properties which may be deleted e.g., via web interface
-                    deleteableProp = ['HomeAddress'        ,
-                                      'WorkCity'           ,
-                                      'FaxNumber'          ,
-                                      'Company'            ,
-                                      'HomeAddress2'       ,
-                                      'HomeCity'           ,
-                                      'WorkCountry'        ,
-                                      'WorkZipCode'        ,
-                                      'HomeCountry'        ,
-                                      'BirthYear'          ,
-                                      'CellularNumber'     ,
-                                      'FirstName'          ,
-                                      'Notes'              ,
-                                      'WorkState'          ,
-                                      'LastName'           ,
-                                      'HomeState'          ,
-                                      'PrimaryEmail'       ,
-                                      'BirthDay'           ,
-                                      'WebPage2'           ,
-                                      'WorkAddress2'       ,
-                                      'BirthMonth'         ,
-                                      'Categories'         ,
-                                      'NickName'           ,
-                                      'WorkAddress'        ,
-                                      'HomeZipCode',
-                                      'WebPage1',
-                                      'WorkPhone',
-                                      '_AimScreenName',
-                                      'PagerNumber',
-                                      'SecondEmail',
-                                      'HomePhone'
-                                      ];
+                    let deleteableProp = [
+                        'HomeAddress'        ,
+                        'WorkCity'           ,
+                        'FaxNumber'          ,
+                        'Company'            ,
+                        'HomeAddress2'       ,
+                        'HomeCity'           ,
+                        'WorkCountry'        ,
+                        'WorkZipCode'        ,
+                        'HomeCountry'        ,
+                        'BirthYear'          ,
+                        'CellularNumber'     ,
+                        'FirstName'          ,
+                        'Notes'              ,
+                        'WorkState'          ,
+                        'LastName'           ,
+                        'HomeState'          ,
+                        'PrimaryEmail'       ,
+                        'BirthDay'           ,
+                        'WebPage2'           ,
+                        'WorkAddress2'       ,
+                        'BirthMonth'         ,
+                        'Categories'         ,
+                        'NickName'           ,
+                        'WorkAddress'        ,
+                        'HomeZipCode',
+                        'WebPage1',
+                        'WorkPhone',
+                        '_AimScreenName',
+                        'PagerNumber',
+                        'SecondEmail',
+                        'HomePhone'
+                        ];
                     if (deleteableProp.indexOf(propName) == -1) {
                         dump("  Property "+propName+" is not deletable. Ignore.\n");
                     }
@@ -641,7 +642,7 @@ GroupDavSynchronizer.prototype = {
                            search for all properties in new card if current propName is still available.
                            If not, remove propName from oldCard. */
                         let allNewCardProperties = card.properties;
-                        propertyStillAvailable = false;
+                        let propertyStillAvailable = false;
                         while (allNewCardProperties.hasMoreElements()) {
                             let propNew = allNewCardProperties.getNext().QueryInterface(Components.interfaces.nsIProperty);
                             let propNameNew = String(propNew.name);
