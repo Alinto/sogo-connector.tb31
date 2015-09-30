@@ -1734,9 +1734,9 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
                 if (cbData.synchronizer.serverDownloadsCount > 1)
                     texte += cbData.synchronizer.serverDownloadsCount+cbData.notificationsStrings['notificationsDownloads'];
 
-                if (cbData.synchronizer.serverDeletes <= 1)
+                if (cbData.synchronizer.serverDeletes.length <= 1)
                     texte += cbData.synchronizer.serverDeletes.length+cbData.notificationsStrings['notificationsDelete'];
-                if (cbData.synchronizer.serverDeletes > 1)
+                if (cbData.synchronizer.serverDeletes.length > 1)
                     texte += cbData.synchronizer.serverDeletes.length+cbData.notificationsStrings['notificationsDeletes'];
                
             } else {
