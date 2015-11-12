@@ -2,6 +2,11 @@ NEWS
 ====
 
 31.0.2  Completed German translation - patch from Johann Tree
+        Fix notification in case of server side deletes
+        Add version to localCardVersionHash for new card
+        Set groupDavKey before uploading card 
+        Strip off header lines downloading cards or lists
+        Fix warnings in strict mode
 
 31.0.1  Fix for bug #3042
 
