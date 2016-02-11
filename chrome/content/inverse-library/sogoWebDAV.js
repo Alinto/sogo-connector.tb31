@@ -342,7 +342,8 @@ sogoWebDAV.prototype = {
                         dump("NOTICE: uploading modified vcard without etag\n");
 	                this._sendHTTPRequest(operation,
                                               parameters.data,
-                                              { "content-type": parameters.contentType });
+					      { "content-type": parameters.contentType,
+				              "If-None-Match": "*" });
                     }
                 }
 	    }
