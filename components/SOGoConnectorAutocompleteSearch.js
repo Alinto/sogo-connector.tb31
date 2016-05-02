@@ -118,7 +118,7 @@ SOGoConnectorAutocompleteSearch.prototype = {
     // Other numbers currently unused (hence default to zero)
     _parser: MailServices.headerParser,
     _abManager: MailServices.ab,
-    applicableHeaders: Set(["addr_to", "addr_cc", "addr_bcc", "addr_reply"]),
+    applicableHeaders: new Set(["addr_to", "addr_cc", "addr_bcc", "addr_reply"]),
 
     // Private methods
 
