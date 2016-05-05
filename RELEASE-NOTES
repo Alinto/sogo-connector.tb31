@@ -1,5 +1,6 @@
 NEWS
 ====
+31.0.3	Fixed autocomplete issue with Thunderbird 45
 
 31.0.2  Completed German translation - patch from Johann Tree
         Fix notification in case of server side deletes
