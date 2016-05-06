@@ -1,6 +1,8 @@
 NEWS
 ====
 31.0.3	Fixed autocomplete issue with Thunderbird 45
+	Now perform PUT and DELETE ops synchronously (PR#13)
+	Set the "If-None-Match" when adding a contact
 
 31.0.2  Completed German translation - patch from Johann Tree
         Fix notification in case of server side deletes
