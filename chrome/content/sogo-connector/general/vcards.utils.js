@@ -255,7 +255,7 @@ function CreateCardFromVCF(vcard) {
             version = vcard[i]["values"][0];
         }
     }
-    if (version[0] == "3")
+    if (version[0] >= "3")
         defaultCharset = "utf-8";
 
     for (let i = 0; i < vcard.length; i++) {
