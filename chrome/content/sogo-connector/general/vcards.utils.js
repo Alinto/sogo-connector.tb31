@@ -383,12 +383,7 @@ let _insertCardMethods = {
             props["SecondEmail"] = values[0];
         }
         else {
-            if (props["PrimaryEmail"] && props["PrimaryEmail"].length > 0) {
-                props["SecondEmail"] = values[0];
-            }
-            else {
-                props["PrimaryEmail"] = values[0];
-            }
+            props["PrimaryEmail"] = values[0];
         }
     },
     url: function(props, parameters, values) {
@@ -538,7 +533,22 @@ function InsertCardData(card, tag, parameters, values) {
                 card.deleteProperty(k);
             }
             else {
-                card.setProperty(k, properties[k]);
+                let tmpPrimaryEmail = card.getProperty("PrimaryEmail", "");
+                let tmpSecondEmail = card.getProperty("SecondEmail", "");
+                if (k == "PrimaryEmail") {
+                    if (tmpPrimaryEmail.length == 0) {
+                        card.setProperty(k, properties[k]);
+                    }
+                    else if (tmpSecondEmail.length == 0) {
+                        card.setProperty("SecondEmail", properties[k]);
+                    }
+                }
+                else if (k == "SecondEmail" && tmpSecondEmail.length == 0) {
+                    card.setProperty("SecondEmail", properties[k]);
+                }
+                else {
+                    card.setProperty(k, properties[k]);
+                }
             }
             // if (k == "PhotoURI" || k == "PhotoName") {
             //     dump("  card value: " + card.getProperty(k, "(nil)") + "\n");

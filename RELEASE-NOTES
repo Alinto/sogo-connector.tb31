@@ -1,7 +1,8 @@
 NEWS
 ====
 31.0.4	Handle 412 (precondition failed) when sync'ing cards (server always win) (#3072)
-	Fixed editing of categories from context menu (#3770)
+        Fixed editing of categories from context menu (#3770)
+        Better handle primary/secondary email addresses (#2570)
 
 31.0.3	Fixed autocomplete issue with Thunderbird 45
 	Now perform PUT and DELETE ops synchronously (PR#13)
