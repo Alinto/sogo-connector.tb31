@@ -284,7 +284,9 @@ abDirTreeObserver._resetDroppedCardsVersionFromSession = function(dragSession, a
                         attributes.version = "-1";
                     }
                     else {
-                        card.setProperty("groupDavVersion", "-1");
+			let oldDavVersion = card.getProperty("groupDavVersion", "-1");
+			card.setProperty("groupDavVersion", "-1");
+			card.setProperty("groupDavVersionPrev", oldDavVersion);
                         abView.directory.modifyCard(card);
                     }
                 }
@@ -764,7 +766,7 @@ function SCOnCategoriesContextMenuItemCommand(event) {
     let cards = GetSelectedAbCards();
     if (cards.length > 0) {
         let requireSync = false;
-        let abUri = GetSelectedDirectory();
+        let abUri = null;
         let category = this.label;
         let set = !this.hasAttribute("checked");
         for (let i = 0; i < cards.length; i++) {
@@ -798,13 +800,26 @@ function SCOnCategoriesContextMenuItemCommand(event) {
             }
             if (changed) {
                 requireSync = true;
-                card.setProperty("Categories", cats);
-                card.setProperty("groupDavVersion", "-1");
+
+		let oldDavVersion = card.getProperty("groupDavVersion", "-1");
+		card.setProperty("groupDavVersion", "-1");
+		card.setProperty("groupDavVersionPrev", oldDavVersion);
+		card.setProperty("Categories", cats);
+
                 let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                                          .getService(Components.interfaces.nsIAbManager);
-                let ab = abManager.getDirectory(abUri);
-                ab.modifyCard(card);
-            }
+                    .getService(Components.interfaces.nsIAbManager);
+		let children = abManager.directories;
+		while (children.hasMoreElements()) {
+		    let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+		    if (ab.isRemote || ab.isMailList)
+			continue;
+		    if (ab.hasCard(card)) {
+			ab.modifyCard(card);
+			abUri = ab.URI;
+			break;
+		    }
+		}
+	    }
         }
         if (requireSync) {
             if (isGroupdavDirectory(abUri)) {

@@ -14,7 +14,6 @@ function jsInclude(files, target) {
 }
 
 jsInclude(["chrome://sogo-connector/content/addressbook/categories.js",
-           "chrome://sogo-connector/content/general/vcards.utils.js",
            "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
            "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js"]);
 

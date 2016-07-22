@@ -1,6 +1,6 @@
 /* sogoWebDAV.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2014
+ * Copyright: Inverse inc., 2006-2016
  *
  * "SOGo Connector" is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published by
@@ -263,6 +263,9 @@ sogoWebDAV.prototype = {
             if (status == 499) {
                 dump("xmlRequest: received status 499 for url: " + this.url + "\n");
             }
+	    else if (status == 412) {
+		dump("xmlRequest: received status 412 - precondition failed for url: " + this.url + "\n");
+	    }
             else {
                 let visitor = {};
                 visitor.visitHeader = function(aHeader, aValue) {
@@ -314,7 +317,7 @@ sogoWebDAV.prototype = {
         }
         catch(e) {
             dump("sogoWebDAV.js: an exception occured\n" + e + "\n"
-                 + e.fileName + ":" + e.lineNumber + "\n");
+                 + e.fileName + ":" + e.lineNumber + "\n\nstack: " + e.stack);
             let uri = aChannel.URI;
             if (uri) {
                 dump("url: " + uri.spec + "\n");

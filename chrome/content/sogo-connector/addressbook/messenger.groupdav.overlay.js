@@ -1,6 +1,6 @@
 /* messenger.groupdav.overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2014
+ * Copyright: Inverse inc., 2006-2016
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *

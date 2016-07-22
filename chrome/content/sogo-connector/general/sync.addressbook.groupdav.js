@@ -1,6 +1,6 @@
 /* sync.addressbook.groupdav.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2014
+ * Copyright: Inverse inc., 2006-2016
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -386,7 +386,7 @@ GroupDavSynchronizer.prototype = {
         else if (data.query == "server-sync-query")
             this.onServerSyncQueryComplete(status, response);
         else if (data.query == "card-upload")
-            this.onCardUploadComplete(status, response, data.key, data.data, headers);
+	    this.onCardUploadComplete(status, response, data.key, data.data, headers);
         else if (data.query == "list-upload")
             this.onListUploadComplete(status, response, data.key, data.data, headers);
         else if (data.query == "server-finalize-propfind")
@@ -517,12 +517,23 @@ GroupDavSynchronizer.prototype = {
             let console = Components.classes["@mozilla.org/consoleservice;1"]
                 .getService(Components.interfaces.nsIConsoleService);
 
-            this.appendFailure(status, card);
+	    if (status == 412) {
+		console.logStringMessage("Precondition failed for card: " + cardURL
+					 + ".\nHTTP Status Code:" + status + "\nRedownloading!");
+		let data = {query: "vcard-download", data: key};
+		let itemDict = { etag: headers["etag"], type: "text/vcard" };
+		this.serverDownloads[key] = itemDict;
+		this.serverDownloadsCount++;
+                this.remainingDownloads++;
+                let request = new sogoWebDAV(cardURL, this, data);
+                request.get("text/vcard");
+	    }
+	    else {
+		this.appendFailure(status, card);
+		console.logStringMessage("Upload failure uploading card: " + cardURL
+					 + ".\nHTTP Status Code:" + status + "\n" + this.cardToString(card));
+	    }
             this.localUploads--;
-
-
-            console.logStringMessage("Upload failure uploading card: " + cardURL
-                                     + ".\nHTTP Status Code:" + status + "\n" + this.cardToString(card));
         }
 
         this.progressMgr.updateAddressBook(this.gURL);
