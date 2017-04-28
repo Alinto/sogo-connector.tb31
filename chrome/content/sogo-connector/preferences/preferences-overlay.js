@@ -13,7 +13,7 @@ function jsInclude(files, target) {
 
 jsInclude(["chrome://sogo-connector/content/addressbook/categories.js"]);
 
-let gSOGoConnectorPane = {
+var gSOGoConnectorPane = {
     init: function SCP_init() {
         let appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
             .getService(Components.interfaces.nsIXULRuntime);
