@@ -990,7 +990,7 @@ function saveImportedPhoto(content, ext) {
      in the SOGo cache as a separate file which will not be destroyed by a
      further save operation */
     let lastFile = null;
-    for each (let bool in [false, true]) {
+    for (let bool of [false, true]) {
         let file = photoFileFromName(photoName, bool);
         /* 0700 is specified here because Thunderbird is too self-sufficient
          to respect the environment umask */

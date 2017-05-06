@@ -413,7 +413,7 @@ sogoWebDAV.prototype = {
         let nsDict = { "DAV:": "D" };
         let propPart = "";
         let nsCount = 0;
-        for each (let prop in props) {
+        for (let prop of props) {
             let propParts = prop.split(" ");
             let ns = propParts[0];
             let nsS = nsDict[ns];

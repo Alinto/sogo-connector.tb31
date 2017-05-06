@@ -41,7 +41,7 @@ function onTestDialogLoad() {
   var methods = [ "GET", "PUT", "PROPFIND", "REPORT", "POST", "MKCOL",
 		  "DELETE", "PROPPATCH" ];
   var vbox = document.getElementById("buttons");
-  for each (var method in methods) {
+  for (var method of methods) {
       var button = document.createElement("button");
       button.setAttribute("label", "test " + method);
       button.style.margin = "5px;";

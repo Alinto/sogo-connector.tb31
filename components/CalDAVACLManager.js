@@ -260,7 +260,7 @@ CalDAVACLOfflineManager.prototype = {
     _deserializeIdentities: function CalDAVACLOfflineManager__deserializeIdentities(mgr, calendar, data, entry) {
         let dataArray = this._parseStringArray(data);
         let identities = [];
-        for each (let data in dataArray) {
+        for (let data of dataArray) {
             if (data && data.length > 0) {
                 let dict = JSON.parse(data);
                 mgr._appendIdentity(identities, dict["displayName"], dict["address"], entry);
@@ -317,7 +317,7 @@ CalDAVACLOfflineManager.prototype = {
     _serializeIdentities: function CalDAVACLOfflineManager__serializeIdentities(identities) {
         let strings = [];
         if (identities) {
-            for each (let identity in identities) {
+            for (let identity of identities) {
                 strings.push(this._serializeIdentity(identity));
             }
         }
@@ -352,7 +352,7 @@ CalDAVACLOfflineManager.prototype = {
             this.mSelectCalendarEntry.reset();
         }
 
-        for each (let query in queries) {
+        for (let query of queries) {
             let params = query.params;
             params.url = url;
             params.has_access_control = (entry.hasAccessControl ? 1 : 0);
@@ -407,7 +407,7 @@ CalDAVACLOfflineManager.prototype = {
             finally {
                 query.reset();
             }
-        } // for each (let query in queries)
+        } // for (let query of queries)
         
         // dump("acl-db-manager: saved calendar entry, errors = "  + errors + "\n");
         if (listener) {
@@ -464,7 +464,7 @@ CalDAVACLOfflineManager.prototype = {
         let queries = [ this.mInsertItemEntry, this.mUpdateItemEntry ];
         let errors = 0;
 
-        for each (let query in queries) {
+        for (let query of queries) {
             let params = query.params;
             params.url = url;
             params.user_privileges = this._serializeStringArray(itemEntry.userPrivileges);
@@ -644,7 +644,7 @@ CalDAVACLManager.prototype = {
                 
                 dump("getCalendarEntry returned for cal: " + aEntry.uri.spec  + "\n");
 
-                for each (let data in this_.pendingCalendarOperations[url]) {
+                for (let data of this_.pendingCalendarOperations[url]) {
                     //this_.mOfflineManager.setCalendarEntry(data.calendar, aEntry, null); // FIXME - should we call it?
                     this_._notifyListenerSuccess(data.listener, data.calendar, aEntry);
                 }
@@ -1126,7 +1126,7 @@ CalDAVACLManager.prototype = {
                                     .getService(Components.interfaces.nsIPrefService);
         let prefBranch = prefService.getBranch("mail.identity.");
         let prefs = prefBranch.getChildList("", {});
-        for each (let pref in prefs) {
+        for (let pref of prefs) {
             if (pref.indexOf("caldav_") == 0) {
                 let key = pref.substring(0, pref.indexOf("."));
                 if (values.indexOf(key) < 0) {

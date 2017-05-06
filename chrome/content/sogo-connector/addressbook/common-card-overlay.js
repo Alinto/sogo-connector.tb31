@@ -113,7 +113,7 @@ function SCResetCategoriesMenu(menu) {
     }
 
     let menuPopup = document.createElement("menupopup");
-    for each (let catName in gSCCardValues.categories) {
+    for (let catName of gSCCardValues.categories) {
         let item = document.createElement("menuitem");
         item.setAttribute("label", catName);
         menuPopup.appendChild(item);
