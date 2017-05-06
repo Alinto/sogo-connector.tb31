@@ -470,10 +470,10 @@ GroupDavSynchronizer.prototype = {
             onDAVQueryComplete: function(status, response, headers, data) {
                 if (status > 199 && status < 400) {
                     let responses = response["multistatus"][0]["response"];
-                    for each (let response in responses) {
+                    for (let response of responses) {
                         let href = response["href"][0];
                         let propstats = response["propstat"];
-                        for each (let propstat in propstats) {
+                        for (let propstat of propstats) {
                             if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
                                 let prop = propstat["prop"][0];
                                 if (prop["getetag"] && prop["getetag"].length > 0) {
@@ -879,10 +879,10 @@ GroupDavSynchronizer.prototype = {
 
         if (status > 199 && status < 400 && jsonResponse) {
             let responses = jsonResponse["multistatus"][0]["response"];
-            for each (let response in responses) {
+            for (let response of responses) {
                 let href = response["href"][0];
                 let propstats = response["propstat"];
-                for each (let propstat in propstats) {
+                for (let propstat of propstats) {
                     if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
                         if (href[href.length-1] != '/')
                             href += '/';
@@ -998,10 +998,10 @@ GroupDavSynchronizer.prototype = {
         if (jsonResponse) {
             if (status > 199 && status < 400) {
                 let responses = jsonResponse["multistatus"][0]["response"];
-                for each (let response in responses) {
+                for (let response of responses) {
                     let href = response["href"][0];
                     let propstats = response["propstat"];
-                    for each (let propstat in propstats) {
+                    for (let propstat of propstats) {
                         if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
                             let prop = propstat["prop"][0];
                             if (href != this.gURL) {
@@ -1221,7 +1221,7 @@ new:
                     = jsonResponse["multistatus"][0]["sync-token"][0];
                 let responses = jsonResponse["multistatus"][0]["sync-response"];
                 if (responses) { /* old webdav sync */
-                    for each (let response in responses) {
+                    for (let response of responses) {
                         let href = response["href"][0];
                         let keyArray = href.split("/");
                         let key = keyArray[keyArray.length - 1];
@@ -1229,7 +1229,7 @@ new:
                         let itemStatus = response["status"][0].substr(9, 3);
                         if (itemStatus == "200" || itemStatus == "201") {
                             let propstats = response["propstat"];
-                            for each (let propstat in propstats) {
+                            for (let propstat of propstats) {
                                 let propStatus = propstat["status"][0].substr(9, 3);
                                 if (propStatus == "200" && href != this.gURL) {
                                     handleAddOrModify(key, itemStatus, propstat);
@@ -1245,14 +1245,14 @@ new:
                 }
                 else { /* new webdav sync */
                     responses = jsonResponse["multistatus"][0]["response"];
-                    for each (let response in responses) {
+                    for (let response of responses) {
                         let href = response["href"][0];
                         let keyArray = href.split("/");
                         let key = keyArray[keyArray.length - 1];
 
                         let propstats = response["propstat"];
                         if (propstats) {
-                            for each (let propstat in propstats) {
+                            for (let propstat of propstats) {
                                 let statusTag = propstat["status"];
                                 let itemStatus  = statusTag[0].substr(9, 3);
                                 if ((itemStatus == "200"
@@ -1436,7 +1436,7 @@ new:
 
     processCardDeletes: function() {
         let deletes = [];
-        for each (let key in this.serverDeletes) {
+        for (let key of this.serverDeletes) {
             if (this.localCardPointerHash[key])
                 deletes.push(key);
         }
@@ -1462,7 +1462,7 @@ new:
         // 		let deleteListStringForTestPurposes = "";
         //Filling the Server deleted cards Hash
 
-        for each (let key in this.serverDeletes) {
+        for (let key of this.serverDeletes) {
             let listCard = this.localListPointerHash[key];
             if (listCard) {
                 let attributes = new GroupDAVListAttributes(listCard.mailListURI);
@@ -1504,11 +1504,11 @@ new:
     onServerFinalizeComplete: function(status, jsonResponse) {
         if (status > 199 && status < 400) {
             let responses = jsonResponse["multistatus"][0]["response"];
-            for each (let response in responses) {
+            for (let response of responses) {
                 let href = response["href"][0];
                 //  				dump("href: " + href + "\n");
                 let propstats = response["propstat"];
-                for each (let propstat in propstats) {
+                for (let propstat of propstats) {
                     if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
                         if (href[href.length-1] != '/')
                             href += '/';

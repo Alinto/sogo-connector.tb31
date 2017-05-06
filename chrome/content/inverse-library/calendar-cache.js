@@ -36,7 +36,7 @@ function reloadCalendarCache(aCalendar) {
                             "calendar.sogo.notify-user-on-personal-modifications",
                             "calendar.sogo.notified-user-on-personal-modifications"];
 
-        for each (let prop in propsToCopy ) {
+        for (let prop of propsToCopy ) {
             newCal.setProperty(prop,
                                aCalendar.getProperty(prop));
         }
