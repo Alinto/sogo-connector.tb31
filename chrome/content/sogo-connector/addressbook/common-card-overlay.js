@@ -38,14 +38,6 @@ function SCOnCommonCardOverlayLoad() {
         SCOnCommonCardOverlayLoadPreHook();
     }
     /* categories */
-    /* migration from MoreFunctionsblabla */
-    let cardCategoriesValue = gEditCard.card.getProperty("Category", "");
-    if (cardCategoriesValue.length > 0) {
-        let migrationValue = cardCategoriesValue.split(", ").join("\u001A");
-        gEditCard.card.setProperty("Categories", migrationValue);
-        gEditCard.card.setProperty("Category", "");
-    }
-
     cardCategoriesValue = gEditCard.card.getProperty("Categories", "");
     let catsArray = multiValueToArray(cardCategoriesValue);
     gSCCardValues.categories = SCContactCategories.getCategoriesAsArray();
