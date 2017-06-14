@@ -126,10 +126,9 @@ GroupdavPreferenceService.prototype = {
             value = this.mPreferencesService.getCharPref(this.prefPath + prefName);
         }
         catch(e) {
-            dump("exception getting pref '" + this.prefPath + prefName
-                  + "': \n" + e + " (" + e.lineNumber + ")\n");
-            // dump("  stack:\n" + backtrace() + "\n");
-            throw("unacceptable condition: " + e);
+          dump("Exception getting pref '" + this.prefPath + prefName + "': \n" + e + " (" + e.lineNumber + ") - ignoring...\n");
+          // dump("  stack:\n" + backtrace() + "\n");
+          //throw("unacceptable condition: " + e);
         }
 
         return value;
