@@ -1,5 +1,7 @@
 NEWS
 ====
+31.0.5  Fixed DnD of cards under Thunderbird v52
+
 31.0.4	Handle 412 (precondition failed) when sync'ing cards (server always win) (#3072)
         Fixed editing of categories from context menu (#3770)
         Better handle primary/secondary email addresses (#2570)

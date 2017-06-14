@@ -164,138 +164,122 @@ dirPaneControllerOverlay.prototype = {
     onEvent: function(event) {}
 };
 
-abDirTreeObserver.SCOnDrop = function(row, or) {
-    let dragSession = dragService.getCurrentSession();
-    if (dragSession) {
-        /* Here, we don't seem to have the choice but to use the RDF
-         interface to discover the target directory. */
-        let sourceDirectory = gAbView.directory;
-        let targetResource = gDirectoryTreeView.getDirectoryAtIndex(row);
-        let targetURI = targetResource.URI;
+abDirTreeObserver.SCOnDrop = function(row, or, dataTransfer) {
+  let dragSession = dragService.getCurrentSession();
+  if (dragSession) {
+    /* Here, we don't seem to have the choice but to use the RDF
+       interface to discover the target directory. */
+    let sourceDirectory = gAbView.directory;
+    let targetResource = gDirectoryTreeView.getDirectoryAtIndex(row);
+    let targetURI = targetResource.URI;
 
-        // dump("source dir: " + sourceDirectory + "\n");
-        // dump("  source uri: " + sourceDirectory.URI + "\n");
-        // dump("  target dir: " + targetURI + "\n");
-        // dump("  targetReource: " + targetResource + "\n");
-        let cardKeys = null;
-        if (targetURI.indexOf(sourceDirectory.URI) != 0
-            && isGroupdavDirectory(sourceDirectory.URI)) {
-            if (dragSession.dragAction
-                == Components.interfaces.nsIDragService.DRAGDROP_ACTION_MOVE) {
-                cardKeys = this._getDroppedCardsKeysFromSession(dragSession, gAbView);
-            }
-            this._resetDroppedCardsVersionFromSession(dragSession, gAbView);
-        }
+    let cards = null;
+    let cardKeys = [];
 
-        let proceed = true;
-        try {
-            this.SCOnDropOld(row, or);
+    if (targetURI.indexOf(sourceDirectory.URI) != 0
+        && isGroupdavDirectory(sourceDirectory.URI)) {
+      if (dragSession.dragAction
+          == Components.interfaces.nsIDragService.DRAGDROP_ACTION_MOVE) {
+        cards = this._getDroppedCardsKeysFromSession(dragSession, gAbView);
+        for (let i = 0; i < cards.length; i++) {
+          this._pushCardKey(cards[i], cardKeys);
         }
-        catch(e) {
-            proceed = false;
-            dump("an exception occured: " + e + "\n");
-        }
-
-        if (targetResource.isMailList) {
-            let uriParts = targetURI.split("/");
-            let parentDirURI = uriParts[0] + "//" + uriParts[2];
-            if (isGroupdavDirectory(parentDirURI)) {
-                let attributes = new GroupDAVListAttributes(targetURI);
-                attributes.version = "-1";
-                SynchronizeGroupdavAddressbook(parentDirURI);
-            }
-        }
-        else if (isGroupdavDirectory(targetURI)) {
-            SynchronizeGroupdavAddressbook(targetURI);
-        }
-
-        if (cardKeys)
-            dump("cardKeys: " + cardKeys.length + " to delete\n");
-        else
-            dump("cardKeys: nothing to delete\n");
-        if (proceed && cardKeys) {
-            let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
-            for (let i = 0; i < cardKeys.length; i++) {
-                // 				dump("deleting " + cardKeys[i] + "\n");
-                _deleteGroupDAVComponentWithKey(prefService, cardKeys[i]);
-            }
-        }
-        dump("done drop delete\n");
+      }
+      this._resetDroppedCardsVersionFromSession(dragSession, gAbView, dataTransfer);
     }
+
+    let proceed = true;
+    try {
+      this.SCOnDropOld(row, or, dataTransfer);
+    }
+    catch(e) {
+      proceed = false;
+      dump("an exception occured: " + e + "\n");
+    }
+
+    if (targetResource.isMailList) {
+      let uriParts = targetURI.split("/");
+      let parentDirURI = uriParts[0] + "//" + uriParts[2];
+      if (isGroupdavDirectory(parentDirURI)) {
+        let attributes = new GroupDAVListAttributes(targetURI);
+        attributes.version = "-1";
+        SynchronizeGroupdavAddressbook(parentDirURI);
+      }
+    }
+    else if (isGroupdavDirectory(targetURI)) {
+      SynchronizeGroupdavAddressbook(targetURI);
+    }
+
+    if (cardKeys)
+      dump("cardKeys: " + cardKeys.length + " to delete\n");
+    else
+      dump("cardKeys: nothing to delete\n");
+    if (proceed && cardKeys) {
+      DeleteGroupDAVCards(gSelectedDir, cards, true);
+      //let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
+      //for (let i = 0; i < cardKeys.length; i++) {
+      //  dump("deleting " + cardKeys[i] + "\n");
+      //  _deleteGroupDAVComponentWithKey(prefService, cardKeys[i]);
+      // }
+    }
+    dump("done drop delete\n");
+  }
 };
 
 abDirTreeObserver._getDroppedCardsKeysFromSession = function(dragSession, abView) {
-    let cards = [];
+  let cards = [];
+  let trans = Components.classes["@mozilla.org/widget/transferable;1"]
+      .createInstance(Components.interfaces.nsITransferable);
+  trans.init(null);
+  trans.addDataFlavor("moz/abcard");
+  trans.addDataFlavor("text/unicode");
 
-    let trans = Components.classes["@mozilla.org/widget/transferable;1"]
-                          .createInstance(Components.interfaces.nsITransferable);
-    trans.addDataFlavor("moz/abcard");
+  for (let i = 0; i < dragSession.numDropItems; i++) {
+    dragSession.getData(trans, i);
+    let dataObj = new Object();
+    let bestFlavor = new Object();
+    let len = new Object();
+    try	{
+      trans.getAnyTransferData(bestFlavor, dataObj, len);
+      dataObj = dataObj.value.QueryInterface(Components.interfaces.nsISupportsString);
+      let transData = dataObj.data.split("\n");
+      let rows = transData[0].split(",");
 
-    for (let i = 0; i < dragSession.numDropItems; i++) {
-        dragSession.getData(trans, i);
-        let dataObj = {};
-        let bestFlavor = {};
-        let len = {};
-        try	{
-            trans.getAnyTransferData(bestFlavor, dataObj, len);
-            dataObj = dataObj.value.QueryInterface(Components.interfaces.nsISupportsString);
-            // 			dump("drop data = /" + dataObj.data + "/\n");
-            let transData = dataObj.data.split("\n");
-            let rows = transData[0].split(",");
-
-            for (let j = 0; j < rows.length; j++) {
-                let card = abView.getCardFromRow(rows[j]);
-                if (card)
-                    this._pushCardKey(card, cards);
-            }
-
-            // 			dump("cards: " + cards.length + "\n");
+      for (let j = 0; j < rows.length; j++) {
+        let card = abView.getCardFromRow(rows[j]);
+        if (card) {
+          cards.push(card);
         }
-        catch (ex) {
-            dump("ex: " + ex + "\n");
-        }
+      }
+      //dump("cards: " + cards.length + "\n");
     }
-
-    return cards;
+    catch (ex) {
+      dump("ex: " + ex + "\n");
+    }
+  }
+  return cards;
 };
 
-abDirTreeObserver._resetDroppedCardsVersionFromSession = function(dragSession, abView) {
-    let trans = Components.classes["@mozilla.org/widget/transferable;1"]
-                          .createInstance(Components.interfaces.nsITransferable);
-    trans.addDataFlavor("moz/abcard");
+abDirTreeObserver._resetDroppedCardsVersionFromSession = function(dragSession, abView, dataTransfer) { 
+  var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
+  var numrows = rows.length;
+  let cards = [];
 
-    for (let i = 0; i < dragSession.numDropItems; i++) {
-        dragSession.getData(trans, i);
-        let dataObj = {};
-        let bestFlavor = {};
-        let len = {};
-        try {
-            trans.getAnyTransferData(bestFlavor, dataObj, len);
-            dataObj = dataObj.value.QueryInterface(Components.interfaces.nsISupportsString);
-            // 			dump("drop data = /" + dataObj.data + "/\n");
-            let transData = dataObj.data.split("\n");
-            let rows = transData[0].split(",");
+  for (let j = 0; j < numrows; j++) {
+    cards.push(gAbView.getCardFromRow(rows[j]));
+  }
 
-            for (let j = 0; j < rows.length; j++) {
-                let card = abView.getCardFromRow(rows[j]);
-                if (card) {
-                    if (card.isMailList) {
-                        let attributes = new GroupDAVListAttributes(card.mailListURI);
-                        attributes.version = "-1";
-                    }
-                    else {
-			let oldDavVersion = card.getProperty("groupDavVersion", "-1");
-			card.setProperty("groupDavVersion", "-1");
-			card.setProperty("groupDavVersionPrev", oldDavVersion);
-                        abView.directory.modifyCard(card);
-                    }
-                }
-            }
-        }
-        catch (ex) {
-            dump("ex: " + ex + "\n");
-        }
+  for (let card of cards) {
+    if (card.isMailList) {
+      let attributes = new GroupDAVListAttributes(card.mailListURI);
+      attributes.version = "-1";
+    } else {
+      let oldDavVersion = card.getProperty("groupDavVersion", "-1");
+      card.setProperty("groupDavVersion", "-1");
+      card.setProperty("groupDavVersionPrev", oldDavVersion);
+      abView.directory.modifyCard(card);
     }
+  }
 };
 
 abDirTreeObserver._pushCardKey = function(card, cards) {
@@ -374,7 +358,7 @@ let deleteManager = {
 
                 let listDirectory = SCGetDirectoryFromURI(mailListURI);
                 data.directory.deleteDirectory(listDirectory);
-                // gAbView.deleteSelectedCards();
+                //gAbView.deleteSelectedCards();
             }
             else {
                 let cards = Components.classes["@mozilla.org/array;1"]
@@ -417,8 +401,10 @@ function DeleteGroupDAVCards(directory, cards, deleteLocally) {
     }
 }
 
-function _deleteGroupDAVComponentWithKey(prefService, key,
-                                         directory, component,
+function _deleteGroupDAVComponentWithKey(prefService,
+                                         key,
+                                         directory,
+                                         component,
                                          deleteLocally) {
     dump("\n\nwe delete: " + key + " with deleteLocally="+deleteLocally+"\n\n\n");
     if (key && key.length) {
