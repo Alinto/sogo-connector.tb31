@@ -156,7 +156,12 @@ function SCSaveCategories() {
 function getUri() {
     let uri;
 
-    if (document.getElementById("abPopup")) {
+    if (gEditCard.abURI && gEditCard.abURI == kAllDirectoryRoot + "?") { // Find the correct address book for "All Address Books"
+        let dirId = gEditCard.card.directoryId
+                             .substring(0, gEditCard.card.directoryId.indexOf("&"));
+        uri = MailServices.ab.getDirectoryFromId(dirId).URI;
+    }
+    else if (document.getElementById("abPopup")) {
         uri = document.getElementById("abPopup").value;
     }
     else if (window.arguments[0].abURI) {
