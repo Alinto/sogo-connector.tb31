@@ -859,7 +859,7 @@ function deducePhotoTypeFromExt(photoName) {
     let dotParts = photoName.split(".");
     if (dotParts.length > 1) {
         let lastPart = (dotParts[dotParts.length - 1]).toUpperCase();
-        if (lastPart == "JPG") {
+        if (lastPart == "JPG" || lastPart == "JPEG") {
             type = "JPEG";
         }
         else if (lastPart == "PNG") {
