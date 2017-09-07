@@ -937,7 +937,6 @@ function importPhoto(photoType, content) {
     let photoFile = null;
 
     if (content && content.length > 0) {
-        let ext = deducePhotoExtFromTypes(photoType);
         if (photoType) {
             let ext = deducePhotoExtFromTypes(photoType);
             if (ext) {
