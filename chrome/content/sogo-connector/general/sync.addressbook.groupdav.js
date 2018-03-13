@@ -1245,37 +1245,43 @@ new:
                 }
                 else { /* new webdav sync */
                     responses = jsonResponse["multistatus"][0]["response"];
-                    for (let response of responses) {
-                        let href = response["href"][0];
-                        let keyArray = href.split("/");
-                        let key = keyArray[keyArray.length - 1];
+                    if ( responses ) {
+                      
+                      for (let response of responses) {
+                            let href = response["href"][0];
+                          let keyArray = href.split("/");
+                          let key = keyArray[keyArray.length - 1];
 
-                        let propstats = response["propstat"];
-                        if (propstats) {
-                            for (let propstat of propstats) {
-                                let statusTag = propstat["status"];
-                                let itemStatus  = statusTag[0].substr(9, 3);
-                                if ((itemStatus == "200"
-                                     || itemStatus == "201")
-                                    && href != this.gURL) {
-                                    handleAddOrModify(key, itemStatus, propstat);
-                                }
-                            }
-                        }
-                        else { /* 404 responses are now supposed to occur only
-                                when no propfind is present. Yet, the "status"
-                                seems not mandatory so we play it safe
-                                here. */
-                            let status = response["status"];
-                            if (status && status.length > 0) {
-                                let itemStatus = response["status"][0].substr(9, 3);
-                                if (itemStatus == "404") {
-                                    if (this.localCardPointerHash[key]
-                                        || this.localListPointerHash[key])
-                                        this.serverDeletes.push(key);
-                                }
-                            }
-                        }
+                          let propstats = response["propstat"];
+                          if (propstats) {
+                              for (let propstat of propstats) {
+                                  let statusTag = propstat["status"];
+                                  let itemStatus  = statusTag[0].substr(9, 3);
+                                  if ((itemStatus == "200"
+                                       || itemStatus == "201")
+                                      && href != this.gURL) {
+                                      handleAddOrModify(key, itemStatus, propstat);
+                                  }
+                                  else if (itemStatus == "418" && href != this.gURL) {
+                                    this.serverDeletes.push(key);
+                                  }
+                              }
+                          }
+                          else { /* 404 responses are now supposed to occur only
+                                  when no propfind is present. Yet, the "status"
+                                  seems not mandatory so we play it safe
+                                  here. */
+                              let status = response["status"];
+                              if (status && status.length > 0) {
+                                  let itemStatus = response["status"][0].substr(9, 3);
+                                  if (itemStatus == "404") {
+                                      if (this.localCardPointerHash[key]
+                                          || this.localListPointerHash[key])
+                                          this.serverDeletes.push(key);
+                                  }
+                              }
+                          }
+                      }
                     }
                 }
 
