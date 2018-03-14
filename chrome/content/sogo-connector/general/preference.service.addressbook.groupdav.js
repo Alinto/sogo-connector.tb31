@@ -46,7 +46,7 @@ function isGroupdavDirectory(abURI) {
         let prefId = ab.dirPrefId;
         try {
             let groupdavPrefService = new GroupdavPreferenceService(prefId);
-            value = (groupdavPrefService.getURL() != "");
+            value = (groupdavPrefService.getURL() != null && groupdavPrefService.getURL() != "");
         }
         catch(e) {
             //let xpcConnect =Components.classes["DEB1D48E-7469-4B01-B186-D9854C7D3F2D"].getService(Components.interfaces.nsIXPConnect);
