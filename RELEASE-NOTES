@@ -1,5 +1,7 @@
 NEWS
 ====
+31.0.6  Fixed card editing from account preferences
+
 31.0.5  Fixed DnD of cards under Thunderbird v52
         Also support jpeg filenames for contact photos (#4197)
 

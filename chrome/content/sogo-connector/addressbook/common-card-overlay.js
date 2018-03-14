@@ -202,7 +202,8 @@ function saveCard(isNewCard) {
         }
     }
     catch(e) {
-        gSCCardValues.messengerWindow.exceptionHandler(null, "saveCard", e);
+        if (typeof gSCCardValues.messengerWindow.exceptionHandler != "undefined")
+            gSCCardValues.messengerWindow.exceptionHandler(null, "saveCard", e);
     }
 }
 
