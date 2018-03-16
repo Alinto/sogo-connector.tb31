@@ -1244,7 +1244,8 @@ new:
                     }
                 }
                 else { /* new webdav sync */
-                    responses = jsonResponse["multistatus"][0]["response"];
+                  responses = jsonResponse["multistatus"][0]["response"];
+                  if (responses) {
                     for (let response of responses) {
                         let href = response["href"][0];
                         let keyArray = href.split("/");
@@ -1281,7 +1282,11 @@ new:
                                 }
                             }
                         }
-                    }
+                    } //  for (let response of responses)
+                  } //  if (responses)
+                  else {
+                    dump("Got empty multistatus response.\n");
+                  }
                 }
 
                 if (completeSync) {
@@ -1585,7 +1590,7 @@ new:
                 this.context.requests[this.gURL] = null;
             }
             else
-                throw "Buggy situation (processMode )!";
+                throw "Buggy situation (processMode)!";
         }
     },
 
@@ -1682,6 +1687,7 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
                     notificationsSave = groupdavPrefService.getNotificationsSave();
                     notificationsStart = groupdavPrefService.getNotificationsStart();
                 } catch(e) {
+                  dump("Exception in GetSyncNotifyGroupdavAddressbook(): " + e + "\n");
                 }
             }
         }
@@ -1697,6 +1703,7 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
             notificationsSave = groupdavPrefService.getNotificationsSave();
             notificationsStart = groupdavPrefService.getNotificationsStart();
         } catch(e) {
+          dump("Exception in GetSyncNotifyGroupdavAddressbook(): " + e + "\n");
         }
     }
     if(typeof(origin) === 'undefined') {

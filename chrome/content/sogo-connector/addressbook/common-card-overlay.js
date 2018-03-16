@@ -38,7 +38,7 @@ function SCOnCommonCardOverlayLoad() {
         SCOnCommonCardOverlayLoadPreHook();
     }
     /* categories */
-    cardCategoriesValue = gEditCard.card.getProperty("Categories", "");
+    let cardCategoriesValue = gEditCard.card.getProperty("Categories", "");
     let catsArray = multiValueToArray(cardCategoriesValue);
     gSCCardValues.categories = SCContactCategories.getCategoriesAsArray();
 

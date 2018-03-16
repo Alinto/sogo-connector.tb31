@@ -317,7 +317,7 @@ sogoWebDAV.prototype = {
         }
         catch(e) {
             dump("sogoWebDAV.js: an exception occured\n" + e + "\n"
-                 + e.fileName + ":" + e.lineNumber + "\n\nstack: " + e.stack);
+                 + e.fileName + ":" + e.lineNumber + "\n\nstack: " + e.stack + "\n");
             let uri = aChannel.URI;
             if (uri) {
                 dump("url: " + uri.spec + "\n");
