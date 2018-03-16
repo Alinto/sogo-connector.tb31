@@ -7,6 +7,7 @@ NEWS
 	Correctly check multistatus response before using it
 	Fixed handling of modifications from "All Address Books" (PR#27)
 	Fixed search by categories (#4359)
+	Commit preferences immediately after creating an address book (#3894)
 
 31.0.5  Fixed DnD of cards under Thunderbird v52
         Also support jpeg filenames for contact photos (#4197)

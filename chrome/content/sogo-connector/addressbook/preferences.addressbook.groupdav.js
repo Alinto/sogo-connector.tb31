@@ -72,6 +72,10 @@ function onAccept() {
         onAcceptWebDAV();
     }
 
+    let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
+                       .getService(Components.interfaces.nsIPrefService));
+    prefService.savePrefFile(null);
+
     return true;
 }
 
