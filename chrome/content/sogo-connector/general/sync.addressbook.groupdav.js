@@ -1541,13 +1541,13 @@ new:
         }
     },
     checkCallback: function() {
-        dump("checkCallback:\n");
-        dump("\n\nthis = " + this.mCounter + "\n");
-        dump("  this.processMode: " + this.processMode + "\n");
-        dump("  this.pendingOperations: " + this.pendingOperations + "\n");
-        dump("  this.updatesStatus: " + this.updatesStatus + "\n");
-        dump("_checkCallback: processMode: " + this.processMode + "\n");
-        dump("_checkCallback: pendingOperations: " + this.pendingOperations + "\n");
+        //dump("checkCallback:\n");
+        //dump("\n\nthis = " + this.mCounter + "\n");
+        //dump("  this.processMode: " + this.processMode + "\n");
+        //dump("  this.pendingOperations: " + this.pendingOperations + "\n");
+        //dump("  this.updatesStatus: " + this.updatesStatus + "\n");
+        //dump("_checkCallback: processMode: " + this.processMode + "\n");
+        //dump("_checkCallback: pendingOperations: " + this.pendingOperations + "\n");
         
         if (this.pendingOperations < 0) {
             this.context.requests[this.gURL] = null;
