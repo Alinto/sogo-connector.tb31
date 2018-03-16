@@ -937,13 +937,19 @@ function importPhoto(photoType, content) {
     let photoFile = null;
 
     if (content && content.length > 0) {
-        let ext = deducePhotoExtFromTypes(photoType);
-        if (ext) {
-            photoFile = saveImportedPhoto(content, ext);
+        if (photoType) {
+            let ext = deducePhotoExtFromTypes(photoType);
+            if (ext) {
+                photoFile = saveImportedPhoto(content, ext);
+            }
+            else {
+                dump("vcards.utils: no extension returned for photo file\n");
+            }
         }
         else {
-            dump("vcards.utils: no extension returned for photo file\n");
-        }
+          dump("vcards.utils: no photo type provided, assuming jpg\n");
+          photoFile = saveImportedPhoto(content, 'jpg');
+       }
     }
     else {
         dump("vcards.utils: no content provided\n");

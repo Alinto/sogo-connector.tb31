@@ -3,6 +3,7 @@ NEWS
 31.0.6  Fixed card editing from account preferences
 	Fixed deletion of local address books
 	Fixed server-side deletes from ownCloud (#4094)
+	Assume jpeg when no photo type is specified (PR#29)
 
 31.0.5  Fixed DnD of cards under Thunderbird v52
         Also support jpeg filenames for contact photos (#4197)
