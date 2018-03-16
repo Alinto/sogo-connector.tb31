@@ -818,17 +818,26 @@ function SCOnCategoriesContextMenuItemCommand(event) {
 function SCSetSearchCriteria(menuitem) {
     let criteria = menuitem.getAttribute("sc-search-criteria");
     if (criteria.length > 0) {
-        gQueryURIFormat = "?(or(" + criteria + ",c,@V))"; // the "or" is important here
+      gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
     }
     else {
-        let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
-                .getService(Components.interfaces.nsIPrefBranch));
-        let nameOrEMailSearch = prefBranch.getComplexValue("mail.addr_book.quicksearchquery.format",
-                                                       Components.interfaces.nsIPrefLocalizedString).data;
-        gQueryURIFormat = nameOrEMailSearch;
+      let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
+                        .getService(Components.interfaces.nsIPrefBranch));
+      let nameOrEMailSearch = "";
+      if (prefBranch.getComplexValue("mail.addr_book.show_phonetic_fields", Components.interfaces.nsIPrefLocalizedString).data == "true") {
+        nameOrEMailSearch =  prefBranch.getCharPref("mail.addr_book.quicksearchquery.format.phonetic");
+      } else {
+        nameOrEMailSearch = prefBranch.getCharPref("mail.addr_book.quicksearchquery.format");
+      }
+
+      // (or(DisplayName,c,@V)(FirstName,c,@V)(LastName,c,@V)(NickName,c,@V)(PrimaryEmail,c,@V)(SecondEmail,c,@V)(and(IsMailList,=,TRUE)(Notes,c,@V))(Company,c,@V)(Department,c,@V)(JobTitle,c,@V)(WebPage1,c,@V)(WebPage2,c,@V)(PhoneticFirstName,c,@V)(PhoneticLastName,c,@V))
+      if (nameOrEMailSearch.startsWith("?"))
+        nameOrEMailSearch = nameOrEMailSearch.slice(1);
+
+      gQueryURIFormat = nameOrEMailSearch;
     }
-    gSearchInput.setAttribute("emptytext", menuitem.getAttribute("label"));
-    gSearchInput.focus();
+    document.getElementById('peopleSearchInput').setAttribute("emptytext", menuitem.getAttribute("label"));
+    document.getElementById('peopleSearchInput').focus();
     onEnterInSearchBar();
 }
 
